@@ -1,8 +1,11 @@
-let prompt = require("prompt-sync")();
+const prompt = require("prompt-sync")();
 /**
  * Programma diviso in 2 versioni che permette la gestione di una lista della spesa.
- * Progetto a cura di: Cafaro Mario, Cusenza Giovanni Paolo, Gurgoglione Samuele, Mangiacotti Flavia.
 */
+
+/**
+ * @author Cafaro Mario, Cusenza Giovanni Paolo, Gurgoglione Samuele, Mangiacotti Flavia
+ */
 
 /**Versione 1 - Base
  *  - Aggiunta e rimozione di elementi dalla lista della spesa.
@@ -27,12 +30,12 @@ function creaProdotto()
 
 /**
  * funzione che riceve il prodotto, controlla se è già presente e restituisce un feedback
- *  @param {Object} prodotto - L'oggetto che rappresenta il prodotto da aggiungere
+ * @param {Object} prodotto - L'oggetto che rappresenta il prodotto da aggiungere
  * @returns {boolean} - `true` se il prodotto è già presente nella lista, `false` altrimenti
 */
 function aggiungi(prodotto) 
 {
-  if (listaSpesa.some(p => p.nome === prodotto.nome)) 
+  if (listaSpesa.some(p => p.nome == prodotto.nome)) 
   {
     console.log(`${prodotto.nome} è già presente nella lista.`);
     return false;
@@ -72,27 +75,30 @@ function visualizza()
   listaSpesa.forEach((prodotto, posizione) => {console.log(`${posizione + 1}. ${prodotto.nome} - ${prodotto.descrizione} (Quantità: ${prodotto.quantita}, Costo: ${prodotto.costo}€)`);});
 }
 
-/**Versione 2 - Avanzata
- - Filtraggio e ordinamento degli elementi.
- - Ricerca di un elemento nella lista della spesa.
- - Aggiunta di controlli e migliorie.*/
+/**
+ * Versione 2 - Avanzata
+ * - Filtraggio e ordinamento degli elementi.
+ * - Ricerca di un elemento nella lista della spesa.
+ * - Aggiunta di controlli e migliorie.
+*/
 
 /**
- * funzione che riceve un criterio, rende tutto minuscolo e filtra la lista in base a quel parametro
- * @param {string} criterio - Il criterio di filtraggio
- * @returns {Object[]} - La lista dei prodotti filtrati
+* funzione che riceve un criterio, rende tutto minuscolo e filtra la lista in base a quel parametro
+* @param {string} criterio - Il criterio di filtraggio
+* @returns {Object[]} - La lista dei prodotti filtrati
 */
 function filtra(criterio) 
 {
-  return listaSpesa.filter(prodotto => prodotto.nome.toLowerCase().includes(criterio.toLowerCase()));
+  return listaFiltrata = listaSpesa.filter(prodotto => prodotto.nome.toLowerCase().includes(criterio.toLowerCase()));
 }
+
 /**
  * funzione che ordina in ordine alfabetico la lista analizzando il nome del prodotto
  * @returns {Object[]} - La lista dei prodotti ordinati
 */
 function ordina() 
 {
-  return listaSpesa.sort((a, b) => a.nome - b.nome);
+  return listaSpesa.sort((a, b) => a.nome.localeCompare(b.nome));
 }
 
 /**
@@ -105,7 +111,7 @@ function cerca(prodotto)
   let posizione = listaSpesa.findIndex(p => p.nome === prodotto.nome);
   if (posizione!==-1)
   {
-    return (`L'elemento ${prodotto.nome} si trova nella posizione ${index + 1} della lista.`);
+    return (`L'elemento ${prodotto.nome} si trova nella posizione ${posizione + 1} della lista.`);
   }
   else  
     return (`L'elemento ${prodotto.nome} NON è presente nella lista della spesa.`);
@@ -113,7 +119,7 @@ function cerca(prodotto)
 
 
 /**
- * funzione principale che comunica con l'utente e chiama le funzioni
+ * funzione che comunica con l'utente e chiama le funzioni
 */
 function main() 
 {
@@ -122,7 +128,7 @@ function main()
     {
       comando = prompt("Inserisci un comando (aggiungi, rimuovi, visualizza, filtra, ordina, cerca, termina): ");
       comando = comando.toLowerCase();
-      const prodotto={};
+      const prodotto = {};
       if(comando=="aggiungi")
       {
         aggiungi(creaProdotto());
@@ -144,7 +150,7 @@ function main()
       else if(comando=="cerca")
       {
         console.log("Inserisci i dati del prodotto da cercare:");
-        const prodotto = creaProdotto();
+        prodotto = creaProdotto();
         console.log(cerca(prodotto));
       }
       else if(comando!="termina")
